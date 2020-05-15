@@ -2,8 +2,8 @@ const signin=()=>{
     const username = document.getElementById('username');
     const password = document.getElementById('password');
     const formData = new FormData();
-    formData.append("username",username);
-    formData.append("password",password);
+    formData.append("username",username.value);
+    formData.append("password",password.value);
     postData('https://sidie.herokuapp.com/signin', formData)
     .then(data => {
         console.log(data); 
