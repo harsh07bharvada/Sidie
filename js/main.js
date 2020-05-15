@@ -1,24 +1,17 @@
 const signin=()=>{
     const username = document.getElementById('username');
     const password = document.getElementById('password');
-    const formData = new FormData();
-    formData.append("username",username.value);
-    formData.append("password",password.value);
-    postData('https://sidie.herokuapp.com/signin', formData)
-    .then(data => {
-        console.log(data); 
-        
-    })
-    .catch(err=>{
-        console.log(err);
-    });
+    let formData = new FormData();
+    formData.append("username", username.value);
+    formData.append("password", password.value);
+    const options = {
+        method: "POST",
+        body: formData,
+      };
+
+    fetch("https://sidie.herokuapp.com/signin", options)
+      .then((res) => res.json())
+      .then(data=>console.log(data))
+      .catch(err=>console.log(err));
 }
 
-async function postData(url = '', data = {}) {
-    
-    const response = await fetch(url, {
-      method: 'POST', 
-      body: data
-    });
-    return response.json(); 
-}
