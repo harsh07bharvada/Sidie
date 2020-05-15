@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/main.css">
+    <script src="./js/main.js"></script>
     <title>Sidie</title>
 </head>
 <body>
@@ -30,16 +31,16 @@
                         <span class="text-gray-600 text-lg font-semibold">Username</span>
                     </div>
                     <div class="flex w-11/12 md:w-1/2 h-auto justify-start items-center py-2">
-                        <input class="h-12 w-full rounded-md text-gray-800 text-lg font-semibold px-2" type="text" name="username" id="username"/>
+                        <input required class="h-12 w-full rounded-md text-gray-800 text-lg font-semibold px-2" type="text" name="username" id="username"/>
                     </div>
                     <div class="flex w-11/12 md:w-1/2 h-auto justify-start items-center py-4">
                         <span class="text-gray-600 text-lg font-semibold">Password</span>
                     </div>
                     <div class="flex w-11/12 md:w-1/2 h-auto justify-start items-center py-2">
-                        <input class="h-12 w-full rounded-md text-gray-800 text-lg font-semibold px-2" type="password" name="password" id="password"/>
+                        <input required class="h-12 w-full rounded-md text-gray-800 text-lg font-semibold px-2" type="password" name="password" id="password"/>
                     </div>
                     <div class="flex w-11/12 md:w-1/2 h-auto justify-start items-center py-6">
-                        <button class="w-full h-12 bg-primary text-white font-bold rounded-md">Submit</button>
+                        <button onclick="signin()" class="w-full h-12 bg-primary text-white font-bold rounded-md">Submit</button>
                     </div>
 
                 </div>
