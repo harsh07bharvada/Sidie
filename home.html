@@ -8,8 +8,8 @@
     <script src="./js/home.js"></script>
     <title>Sidie</title>
 </head>
-<body>
-    <section class="flex flex-col h-screen w-screen bg-primary bg-hero-pattern">
+<body >
+    <section class="flex flex-col bg-primary bg-hero-pattern">
         <div class="flex h-20 w-full justify-center items-center">
             <div class="flex w-1/5 h-full px-2 md:px-10 justify-center items-center">
                 <span class="text-xl md:text-3xl font-bold text-white tracking-wide ">Sidie</span>
@@ -20,10 +20,18 @@
                 </div>
 
                 <div class="px-4 bg-white rounded-md">
-                    <span onclick="signout()" class="hover:text-white cursor-pointer">Sign out</span>
+                    <span onclick="signout()" class="text-gray-800 hover:text-white cursor-pointer">Sign out</span>
                 </div>
             </div>
         </div>
+        
+    </section>
+    <section class="flex w-full h-auto  md:py-10 justify-center items-center">
+        <span id="username" class="text-2xl md:text-4xl font-bold text-gray-800 text-center "></span>
+    </section>
+
+
+    <section id="cardSection" class="flex w-full h-auto p-5 md:p-10 justify-around items-center">
         
     </section>
 </body>
