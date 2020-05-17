@@ -1,3 +1,15 @@
+const createObject = {
+  name:false,
+  description:false,
+  link:false
+}
+
+const editObject = {
+  name:true,
+  description:true,
+  link:true
+}
+
 window.onload = (event) => {
   console.log('Page is fully loaded');
   loadingData();
@@ -36,6 +48,61 @@ const populatePage = (data)=>{
   });
 }
 
+const modalInputChanged = (id,inputTag)=>{
+
+  let falseTags = [];
+  const stateObj = id ==="create" ? createObject :editObject;
+  let buttonElement = document.getElementById(id+"-button");
+  const elementValue = document.getElementById(id+"-modal-"+inputTag).value;
+  if(id === "edit")
+  {
+    buttonElement = document.getElementById(document.getElementsByClassName("update-button")[0].id);
+  }
+  if(elementValue.trim() !== "") 
+  {
+    stateObj[inputTag] = true;
+  }
+  else
+  {
+    stateObj[inputTag] = false;
+  }
+  if(!Object.values(stateObj).includes(false))
+  {
+    hideError(id+"-error-wrapper");
+    buttonElement.disabled = false;
+    buttonElement.classList.remove("cursor-not-allowed");
+    buttonElement.classList.add("cursor-pointer");
+    buttonElement.classList.remove("opacity-50");
+    buttonElement.classList.add("opacity-100");
+  }
+  else
+  {
+    buttonElement.disabled = true;
+    buttonElement.classList.add("cursor-not-allowed");
+    buttonElement.classList.remove("cursor-pointer");
+    buttonElement.classList.add("opacity-50");
+    buttonElement.classList.remove("opacity-100");
+    
+    Object.entries(stateObj).filter(arr=>!arr[1]).forEach(arr=>falseTags.push(arr[0]));
+    showError(falseTags.join(",")+" are invalid.",id+"-error-wrapper",id+"-error-text");
+  }
+}
+
+
+const showError = (errorText,wrapperID,textID)=>{
+
+  const wrapperElement = document.getElementById(wrapperID);
+  const textElement = document.getElementById(textID);
+  wrapperElement.classList.remove("hidden");
+  textElement.innerHTML = errorText;
+}
+
+const hideError = (wrapperID)=>{
+  const wrapperElement = document.getElementById(wrapperID);
+  wrapperElement.classList.add("hidden");
+  
+}
+
 const signout = ()=>{
 
     const result = getData('https://sidie.herokuapp.com/signout');
@@ -57,7 +124,7 @@ const addCard = ({_id,name,description,status,link})=>{
       <div class="flex flex-col bg-white w-full  h-auto rounded-lg justify-around items-center p-5 md:p-8">
         <!-- Project Name -->
         <div class="flex  w-full h-auto  md:py-5 rounded-md justify-center items-center">
-          <span id="${_id}-name" class="text-gray-900 font-bold text-sm md:text-2xl "> ${name} </span>
+          <span id="${_id}-name" class="text-gray-800 font-bold text-sm md:text-2xl "> ${name} </span>
         </div>
 
         <!-- Project Info Status & Link -->

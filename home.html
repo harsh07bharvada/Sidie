@@ -10,32 +10,40 @@
     <title>Sidie</title>
 </head>
 <body >
-    <section class="flex flex-col bg-primary bg-hero-pattern px-2">
+    <section class="flex flex-col bg-gray-900 px-2">
         <div class="flex h-20 w-full justify-center items-center">
             <div class="flex w-1/5 h-full px-2 md:px-10 justify-center items-center">
                 <span class="text-xl md:text-3xl font-bold text-white tracking-wide ">Sidie</span>
             </div>
             <div class="flex w-4/5 h-full text-md md:text-xl text-gray-400 justify-end items-center md:px-10">
-                <div class="px-6 ">
-                    <span onclick="document.getElementById('createModal').showModal();" class="hover:text-white cursor-pointer">
+                <div class="flex w-auto h-auto px-3 py-2 rounded bg-gray-800 text-md text-center text-gray-400 justify-center items-center hover:bg-gray-200 hover:text-gray-900 cursor-pointer">
+                    <span onclick="document.getElementById('createModal').showModal();">
                         Create project
                     </span>
                 </div>
+    
 
-                <div class="px-4 bg-white rounded-md">
-                    <span onclick="signout()" class="text-gray-800  cursor-pointer">Sign out</span>
+                <div class="px-4 ">
+                    <span onclick="signout()" class="text-white  cursor-pointer">Sign out</span>
                 </div>
             </div>
         </div>
         
     </section>
+
+    <!-- Username Header -->
     <section class="flex w-full h-auto  md:py-10 justify-center items-center">
-        <span id="username" class="text-2xl md:text-4xl font-bold text-gray-800 text-center "></span>
+        <span id="username" class="text-2xl md:text-4xl font-bold text-gray-900 text-center "></span>
     </section>
+    <!-- End -->
 
+    <!-- Card Section -->
+    <div id="cardSection" class="flex flex-wrap flex-row px-10 w-full h-auto justify-around items-center">
 
-    <div id="cardSection" class="flex flex-wrap flex-row  w-full h-auto p-5 md:p-10 justify-around items-center"></div>
+    </div>
+    <!-- End -->
 
+    <!-- Edit Modal  -->
     <dialog id="editModal" class="h-auto w-11/12 md:w-1/2 p-5  bg-white rounded-md ">
         
         <!-- Header -->
@@ -55,20 +63,19 @@
             <div class="flex w-full h-auto justify-start items-center mt-3 text-semibold text-md text-gray-700 px-2">Project Name</div>
         
             <div class="flex w-full h-auto justify-start items-center mt-3">
-                <input id="edit-modal-name" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2" placeholder="Project name" type="text">
+                <input onfocusout="modalInputChanged('edit','name')" id="edit-modal-name" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2" placeholder="Project name" type="text">
             </div>
             
-
             <div class="flex w-full h-auto justify-start items-center mt-3 text-semibold text-md text-gray-700 px-2">Project Description</div>
         
             <div class="flex w-full h-auto justify-start items-center mt-3">
-                <input id="edit-modal-description" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2" placeholder="Project description" type="text">
+                <input onfocusout="modalInputChanged('edit','description')" id="edit-modal-description" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2" placeholder="Project description" type="text">
             </div>
 
             <div class="flex w-full h-auto justify-start items-center mt-3 text-semibold text-md text-gray-700 px-2">Project Link</div>
         
             <div class="flex w-full h-auto justify-start items-center mt-3">
-                <input id="edit-modal-link" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2" placeholder="Project Link" type="text">
+                <input onfocusout="modalInputChanged('edit','link')" id="edit-modal-link" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2" placeholder="Project Link" type="text">
             </div>
 
             <div class="flex w-full h-auto justify-start items-center mt-3 text-semibold text-md text-gray-700 px-2">Project status</div>
@@ -80,11 +87,22 @@
                 </select>
             </div>
 
-            <div  onclick="updateProject()" class="update-button cursor-pointer  flex w-full h-12 bg-primary rounded-md justify-center items-center mt-3 text-semibold text-xl text-white px-2">Update Project</div>
+            <div id="edit-error-wrapper" class="hidden flex w-full h-auto justify-start items-center py-4">
+                <div class="flex w-full h-auto bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    <strong class="font-bold">Holy smokes!</strong>
+                    <span id="edit-error-text" class="block sm:inline px-1">Something seriously bad happened.</span>
+                </div>
+            </div>
+
+            <div disabled  onclick="updateProject()" class="opacity-50 cursor-not-allowed update-button cursor-pointer  flex w-full h-12 bg-gray-900 rounded-md justify-center items-center mt-3 text-semibold text-xl text-white px-2">Update Project</div>
         </div>
 
     </dialog>
+    <!-- End -->
 
+
+
+    <!-- Create Modal  -->
     <dialog id="createModal" class="h-auto w-11/12 md:w-1/2 p-5  bg-white rounded-md ">
         
         <!-- Header -->
@@ -104,35 +122,43 @@
             <div class="flex w-full h-auto justify-start items-center mt-3 text-semibold text-md text-gray-700 px-2">Project Name</div>
         
             <div class="flex w-full h-auto justify-start items-center mt-3">
-                <input id="create-modal-name" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2" placeholder="Project name" type="text">
+                <input onfocusout="modalInputChanged('create','name')" id="create-modal-name" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2" placeholder="Project name" type="text">
             </div>
             
 
             <div class="flex w-full h-auto justify-start items-center mt-3 text-semibold text-md text-gray-700 px-2">Project Description</div>
         
             <div class="flex w-full h-auto justify-start items-center mt-3">
-                <input id="create-modal-description" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2" placeholder="Project description" type="text">
+                <input onfocusout="modalInputChanged('create','description')" id="create-modal-description" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2" placeholder="Project description" type="text">
             </div>
 
             <div class="flex w-full h-auto justify-start items-center mt-3 text-semibold text-md text-gray-700 px-2">Project Link</div>
         
             <div class="flex w-full h-auto justify-start items-center mt-3">
-                <input id="create-modal-link" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2" placeholder="Project Link" type="text">
+                <input onfocusout="modalInputChanged('create','link')" id="create-modal-link" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2" placeholder="Project Link" type="text">
             </div>
 
             <div class="flex w-full h-auto justify-start items-center mt-3 text-semibold text-md text-gray-700 px-2">Project status</div>
         
-            <div class="flex w-full h-auto justify-start items-center mt-3 text-gray-700">
+            <div onfocusout="modalInputChanged('create','status')" class="flex w-full h-auto justify-start items-center mt-3 text-gray-700">
                 <select id="create-modal-status" class="outline-none w-full h-12 no-underline bg-gray-100 rounded-md px-2">
                     <option value="completed">Completed</option>
                     <option selected value="inprogress">In Progress</option>
                 </select>
             </div>
 
-            <div  onclick="createProject()" class="create-button cursor-pointer flex w-full h-12 bg-primary rounded-md justify-center items-center mt-3 text-semibold text-xl text-white px-2">Create Project</div>
+            <div id="create-error-wrapper" class="hidden flex w-full h-auto justify-start items-center py-4">
+                <div class="flex w-full h-auto bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                    <strong class="font-bold">Holy smokes!</strong>
+                    <span id="create-error-text" class="block sm:inline px-1">Something seriously bad happened.</span>
+                </div>
+            </div>
+
+            <div disabled id="create-button" onclick="createProject()" class="opacity-50 cursor-not-allowed create-button cursor-pointer flex w-full h-12 bg-gray-900 rounded-md justify-center items-center mt-3 text-semibold text-xl text-white px-2">Create Project</div>
         </div>
 
     </dialog>
+    <!-- End  -->
 
     <script src="./js/dialog-polyfill.js"></script>
     <script src="./js/home.js"></script>

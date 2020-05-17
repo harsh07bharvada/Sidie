@@ -10,37 +10,50 @@
 </head>
 <body>
     <section class="flex flex-col md:flex-row h-screen w-screen bg-white ">
-        <div class="flex md:flex-col  w-full md:w-1/3 h-32 md:h-screen bg-primary bg-hero-pattern">
-            <div class="flex w-full h-32  justify-start items-center px-10">
-                <span class="text-white font-bold text-3xl">Sidie</span>
+        <div class="flex md:flex-col  w-full md:w-1/3 h-32 md:h-screen bg-indigo-900">
+            <div class="flex w-full h-32  justify-between items-center px-10">
+                <span class="text-white font-bold text-3xl"><a class="no-underline cursor-pointer tracking-wide" href="./index.html">Sidie</a></span>
+                <div class="flex w-auto h-auto px-3 py-2 rounded bg-indigo-800 text-xl text-center text-indigo-400 justify-center items-center hover:bg-indigo-200 hover:text-indigo-900 cursor-pointer">
+                    <a class="no-underline " href="./signup.html">Sign up</a>
+                </div>
             </div>
             <div class="hidden md:flex md:h-full md:w-full justify-center items-center px-10">
                 <img src="./img/group.svg" alt="">
             </div>
-            
+            <div class="flex w-full h-32 justify-center items-center ">
+                <div class="flex w-auto h-auto p-3 rounded bg-indigo-800 text-xl text-center text-indigo-400 justify-center items-center">
+                    Showcase your side projects to the world
+                </div>
+            </div>
         </div>
         <div class="flex w-full md:w-2/3 h-auto md:h-screen bg-gray-200 ">
             <div class="flex flex-col h-full w-full justify-center items-center  md:p-5">
                 
                 <!-- Form -->
                 <div class="flex flex-col h-full w-full  justify-center items-center px-10 ">
-                    <div class="flex w-full md:h-auto justify-center items-center py-10">
-                        <span class="text-2xl font-semibold text-gray-800 text-center">Sign in to your Sidie account</span>
+                    <div class="flex w-full md:h-auto justify-center items-center pb-12 ">
+                        <span class="text-2xl font-semibold text-gray-800 text-center">Sign in </span>
                     </div>
                     <div class="flex w-11/12 md:w-1/2 h-auto justify-start items-center ">
-                        <span class="text-gray-600 text-lg font-semibold">Username</span>
+                        <span  class="text-gray-600 text-lg font-semibold">Username</span>
                     </div>
                     <div class="flex w-11/12 md:w-1/2 h-auto justify-start items-center py-2">
-                        <input required class="h-12 w-full rounded-md text-gray-800 text-lg font-semibold px-2" type="text" name="username" id="username"/>
+                        <input onfocusout="usernameOnFocusout()" required class="h-12 w-full rounded-md text-gray-800 text-lg font-semibold px-2" type="text" name="username" id="username"/>
                     </div>
                     <div class="flex w-11/12 md:w-1/2 h-auto justify-start items-center py-4">
                         <span class="text-gray-600 text-lg font-semibold">Password</span>
                     </div>
                     <div class="flex w-11/12 md:w-1/2 h-auto justify-start items-center py-2">
-                        <input required class="h-12 w-full rounded-md text-gray-800 text-lg font-semibold px-2" type="password" name="password" id="password"/>
+                        <input onfocusout="passwordOnFocusout('signin')" required class="h-12 w-full rounded-md text-gray-800 text-lg font-semibold px-2" type="password" name="password" id="password"/>
+                    </div>
+                    <div id="error-wrapper" class="hidden flex w-11/12 md:w-1/2 h-auto justify-start items-center py-4">
+                        <div class="flex w-full h-auto bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+                            <strong class="font-bold">Holy smokes!</strong>
+                            <span id="error-text" class="block sm:inline px-1">Something seriously bad happened.</span>
+                        </div>
                     </div>
                     <div class="flex w-11/12 md:w-1/2 h-auto justify-start items-center py-6">
-                        <button onclick="signin()" class="w-full h-12 bg-primary text-white font-bold rounded-md">Submit</button>
+                        <button id="sign-button" disabled onclick="signin()" class="cursor-not-allowed opacity-50 w-full h-12 bg-primary text-white font-bold rounded-md">Submit</button>
                     </div>
 
                 </div>
