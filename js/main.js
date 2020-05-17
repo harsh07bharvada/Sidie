@@ -2,8 +2,8 @@ const signin=()=>{
     const username = document.getElementById('username');
     const password = document.getElementById('password');
     const urlencoded = new URLSearchParams();
-    urlencoded.append("username", "sunny");
-    urlencoded.append("password", "pass");
+    urlencoded.append("username", username.value);
+    urlencoded.append("password", password.value);
 
     postData("https://sidie.herokuapp.com/signin",urlencoded)
     .then(data=>{
