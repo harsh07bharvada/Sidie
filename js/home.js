@@ -1,5 +1,5 @@
 window.onload = (event) => {
-  console.log('page is fully loaded');
+  console.log('Page is fully loaded');
   loadingData();
 };
 dialogPolyfill.registerDialog(document.getElementById("createModal"));
@@ -28,6 +28,7 @@ const populatePage = (data)=>{
   const {username,result} = data;
   const usernameField = document.getElementById('username');
   let mainSection = document.getElementById('cardSection');
+  mainSection.innerHTML = "";
   usernameField.innerHTML = username;
   result.forEach(project => {
     addCard(project);
@@ -42,19 +43,6 @@ const signout = ()=>{
     document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     window.location = '/'
     
-}
-
-async function getData(url = '') {
-    
-    const response = await fetch(url, {
-      method: 'GET', 
-      mode:'cors',
-      headers: {
-        'Accept': 'application/json',
-        'Authorization':"Bearer "+document.cookie.split("=")[1]
-      }
-    });
-    return response.json(); 
 }
 
 
@@ -99,7 +87,7 @@ const addCard = ({_id,name,description,status,link})=>{
                 <span class="text-xl font-semibold px-2">Edit</span>
             </div>
 
-            <div id="${_id}-delete" class="flex w-5/12 h-12 delete-button rounded-md justify-center items-center cursor-pointer">
+            <div id="${_id}-delete" onclick="deleteClicked(this.id)" class="flex w-5/12 h-12 delete-button rounded-md justify-center items-center cursor-pointer">
                 
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#e53e3e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash-2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>
                 <span class="text-xl font-semibold px-2">Delete</span>
@@ -112,7 +100,22 @@ const addCard = ({_id,name,description,status,link})=>{
 
 }
 
+const deleteClicked = (id) =>{
 
+  const _id = id.split("-")[0];
+  let urlencoded = new URLSearchParams();
+  urlencoded.append("_id", _id);
+
+  
+  deleteData("https://sidie.herokuapp.com/project",urlencoded)
+    .then(data=>{
+      console.log(data);
+      loadingData();
+    })
+    .catch(err=>{
+      console.log(err);
+    });
+}
 
 const editClicked = (id) => {
 
@@ -160,7 +163,6 @@ const updateProject = ()=>{
 
 const createProject = ()=>{
   
-
   let urlencoded = new URLSearchParams();
   urlencoded.append("name", document.getElementById("create-modal-name").value);
   urlencoded.append("description", document.getElementById("create-modal-description").value);
@@ -181,10 +183,31 @@ const createProject = ()=>{
   
 }
 
+
+//HTTP REQUEST ASYNC FUNCTIONS
+
 async function putData(url = '', data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
     method: 'PUT',
+    mode: 'cors', 
+    cache: 'no-cache', 
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization':"Bearer "+document.cookie.split("=")[1]
+    },
+    redirect: 'follow', 
+    referrerPolicy: 'no-referrer', 
+    body: data 
+  });
+  return response.json(); 
+}
+
+async function deleteData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'DELETE',
     mode: 'cors', 
     cache: 'no-cache', 
     headers: {
@@ -213,6 +236,19 @@ async function createPostData(url = '', data = {}) {
     redirect: 'follow', 
     referrerPolicy: 'no-referrer', 
     body: data 
+  });
+  return response.json(); 
+}
+
+async function getData(url = '') {
+    
+  const response = await fetch(url, {
+    method: 'GET', 
+    mode:'cors',
+    headers: {
+      'Accept': 'application/json',
+      'Authorization':"Bearer "+document.cookie.split("=")[1]
+    }
   });
   return response.json(); 
 }

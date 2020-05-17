@@ -5,13 +5,25 @@
 <circle cx="52.5" cy="43.5" r="8.5" fill="#FB3D3D"/>
 <circle cx="80.5" cy="43.5" r="8.5" fill="#FFD850"/>
 <circle cx="108.5" cy="43.5" r="8.5" fill="#93ED69"/>
-<rect x="76" y="90" width="553" height="312" rx="10" fill="#F2F2F2"/>
-<rect x="140" y="309" width="434" height="157" rx="10" fill="#D1D1D1"/>
-<rect x="132" y="118" width="162" height="22" rx="5" fill="#DFDFDF"/>
+<rect x="76" y="90" width="553" height="312" rx="10" fill="#F2F2F2">
+    
+</rect>
+<rect x="140" y="309" width="434" height="157" rx="10" fill="#D1D1D1">
+    <animate attributeName="width" from="200" to="434" dur="0.4s" keyTimes="0;0.22;0.33;0.55;0.66;0.88;1"/>
+</rect>
+<rect x="132" y="118" width="162" height="22" rx="5" fill="#DFDFDF">
+    <animate attributeName="width" from="80" to="162" dur="0.8s" keyTimes="0;0.22;0.33;0.55;0.66;0.88;1"/>
+</rect>
 <circle cx="109.5" cy="128.5" r="10.5" fill="#C4C4C4"/>
-<rect x="174" y="338" width="94" height="91" rx="10" fill="#BABABA"/>
-<rect x="446" y="338" width="94" height="91" rx="10" fill="#BABABA"/>
-<rect x="310" y="338" width="94" height="91" rx="10" fill="#BABABA"/>
+<rect x="174" y="338" width="94" height="91" rx="10" fill="#BABABA">
+    <animate attributeName="width" from="44" to="94" dur="0.8s" keyTimes="0;0.22;0.33;0.55;0.66;0.88;1"/>
+</rect>
+<rect x="446" y="338" width="94" height="91" rx="10" fill="#BABABA">
+     <animate attributeName="width" from="44" to="94" dur="0.8s" keyTimes="0;0.22;0.33;0.55;0.66;0.88;1"/>
+</rect>
+<rect x="310" y="338" width="94" height="91" rx="10" fill="#BABABA">
+    <animate attributeName="width" from="44" to="94" dur="0.8s" keyTimes="0;0.22;0.33;0.55;0.66;0.88;1"/>
+</rect>
 <defs>
 <filter id="filter0_d" x="0" y="0" width="706" height="530" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
 <feFlood flood-opacity="0" result="BackgroundImageFix"/>

@@ -1,11 +1,37 @@
+
+//Sign In Function
 const signin=()=>{
     const username = document.getElementById('username');
     const password = document.getElementById('password');
     const urlencoded = new URLSearchParams();
     urlencoded.append("username", username.value);
     urlencoded.append("password", password.value);
+    callFetch("signin",urlencoded);
+}
 
-    postData("https://sidie.herokuapp.com/signin",urlencoded)
+//Sign Up Function
+const signup=()=>{
+  const username = document.getElementById('username');
+  const password = document.getElementById('password');
+  const confirmPassword = document.getElementById('confirmpassword');
+  if(password.value === confirmPassword.value)
+  {
+    const urlencoded = new URLSearchParams();
+    urlencoded.append("username", username.value);
+    urlencoded.append("password", password.value);
+    callFetch("signup",urlencoded);
+  }
+  else
+  {
+    showError();
+  }
+}
+
+
+//Fetch helper function 
+const callFetch=(process,urlencoded)=>{
+
+  postData("https://sidie.herokuapp.com/"+process,urlencoded)
     .then(data=>{
       console.log(data);
       if(data.token)
@@ -17,29 +43,9 @@ const signin=()=>{
     .catch(err=>{
       console.log(err);
     });
-
-    
-
-}
-const signup=()=>{
-  const username = document.getElementById('username');
-  const password = document.getElementById('password');
-  const formData = new FormData();
-  formData.append("username", username.value);
-  formData.append("password", password.value);
-  const options = {
-      method: "POST",
-      body: formData,
-    };
-
-  fetch("https://sidie.herokuapp.com/signup", options)
-    .then((res) => res.json())
-    .then(data=>console.log(data))
-    .catch(err=>console.log(err));
 }
 
-
-
+//Async Post Fetch call
 async function postData(url = '', data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
