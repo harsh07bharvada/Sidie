@@ -98,7 +98,7 @@ dialog[open] {
 
 dialog::backdrop {
   background: linear-gradient(45deg, rgba(0, 0, 0, 0.5), rgba(54, 54, 54, 0.5));
-  
+  backdrop-filter: blur(3px);
 }
 
 @keyframes appear {
