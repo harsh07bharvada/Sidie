@@ -1,3 +1,5 @@
+
+// State Objects for checking mandatory fields in modals
 const createObject = {
   name:false,
   description:false,
@@ -9,63 +11,56 @@ const editObject = {
   description:true,
   link:true
 }
+//End
 
+//Dialog Polyfill
+dialogPolyfill.registerDialog(document.getElementById("createModal"));
+dialogPolyfill.registerDialog(document.getElementById("editModal"));
+//End
+
+
+//Window onLoad
 window.onload = (event) => {
   console.log('Page is fully loaded');
   loadingData();
 };
-dialogPolyfill.registerDialog(document.getElementById("createModal"));
-dialogPolyfill.registerDialog(document.getElementById("editModal"));
+//End
 
-
+//Data load on page load
 const loadingData = ()=>{
-
-    getData('https://sidie.herokuapp.com/getProjects')
+  getData('https://sidie.herokuapp.com/getProjects')
     .then(data=>{
       if(data.status == 401)
-      {
         window.location = '/';
-      }
       else
-      {
-        console.log(data);
         populatePage(data);
-      }
-    });
-    
-
+  });
 }
+//End
+
+//Populate cards of project data 
 const populatePage = (data)=>{
-  let i = 0;
   const {username,result} = data;
   const usernameField = document.getElementById('username');
   let mainSection = document.getElementById('cardSection');
   mainSection.innerHTML = "";
   usernameField.innerHTML = username;
-  result.forEach(project => {
-    addCard(project);
-    
-  });
+  result.forEach(project => addCard(project));
 }
+//End
 
-const modalInputChanged = (id,inputTag)=>{
+//On Focus out function call for each input/select tag in modal 
+const modalInputChanged =(id,inputTag)=>{
 
   let falseTags = [];
-  const stateObj = id ==="create" ? createObject :editObject;
   let buttonElement = document.getElementById(id+"-button");
+  const stateObj = id ==="create" ? createObject :editObject;
   const elementValue = document.getElementById(id+"-modal-"+inputTag).value;
+
   if(id === "edit")
-  {
     buttonElement = document.getElementById(document.getElementsByClassName("update-button")[0].id);
-  }
-  if(elementValue.trim() !== "") 
-  {
-    stateObj[inputTag] = true;
-  }
-  else
-  {
-    stateObj[inputTag] = false;
-  }
+
+  stateObj[inputTag] = elementValue.trim() !== "" ? true :false;
   if(!Object.values(stateObj).includes(false))
   {
     hideError(id+"-error-wrapper");
@@ -83,34 +78,38 @@ const modalInputChanged = (id,inputTag)=>{
     buttonElement.classList.add("opacity-50");
     buttonElement.classList.remove("opacity-100");
     
+    //Retrieves all the fields which are invalid (false) in state object & pushes it to an array
     Object.entries(stateObj).filter(arr=>!arr[1]).forEach(arr=>falseTags.push(arr[0]));
+
     showError(falseTags.join(",")+" are invalid.",id+"-error-wrapper",id+"-error-text");
   }
 }
+//End
 
-
+//Function to show error
 const showError = (errorText,wrapperID,textID)=>{
-
   const wrapperElement = document.getElementById(wrapperID);
   const textElement = document.getElementById(textID);
   wrapperElement.classList.remove("hidden");
   textElement.innerHTML = errorText;
 }
+//End
 
+//Function to hide error
 const hideError = (wrapperID)=>{
   const wrapperElement = document.getElementById(wrapperID);
   wrapperElement.classList.add("hidden");
-  
 }
+//End
 
+
+//Function for signing out 
 const signout = ()=>{
-
-    const result = getData('https://sidie.herokuapp.com/signout');
-    console.log(`Result : ${result}`);
-    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    window.location = '/'
-    
+  getData('https://sidie.herokuapp.com/signout');
+  document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  window.location = '/'
 }
+//End
 
 
 const addCard = ({_id,name,description,status,link})=>{
@@ -167,13 +166,12 @@ const addCard = ({_id,name,description,status,link})=>{
 
 }
 
+//Function to delete project
 const deleteClicked = (id) =>{
 
   const _id = id.split("-")[0];
   let urlencoded = new URLSearchParams();
   urlencoded.append("_id", _id);
-
-  
   deleteData("https://sidie.herokuapp.com/project",urlencoded)
     .then(data=>{
       console.log(data);
@@ -183,7 +181,9 @@ const deleteClicked = (id) =>{
       console.log(err);
     });
 }
+//End
 
+//Function to open edit modal
 const editClicked = (id) => {
 
   const _id = id.split("-")[0];
@@ -192,22 +192,23 @@ const editClicked = (id) => {
   const link = document.getElementById(_id+"-link");
   const status = document.getElementById(_id+"-status");
   const trimmedStatus = status.innerHTML.toLowerCase().replace(" ","").trim();
-  
   document.getElementById("edit-modal-name").value = name.innerHTML;
   document.getElementById("edit-modal-description").value = description.innerHTML;
   document.getElementById("edit-modal-link").value = link.innerHTML;
   document.getElementById("edit-modal-status").value = trimmedStatus;
   document.getElementsByClassName("update-button")[0].id = _id+"-update-button"; 
-
   document.getElementById("editModal").showModal();
 
 }
+//End
 
+//Function to update a project
 const updateProject = ()=>{
+
+  let urlencoded = new URLSearchParams();
   const elementID = document.getElementsByClassName("update-button")[0].id;
   const _id = elementID.split("-")[0];
 
-  let urlencoded = new URLSearchParams();
   urlencoded.append("_id", _id);
   urlencoded.append("name", document.getElementById("edit-modal-name").value);
   urlencoded.append("description", document.getElementById("edit-modal-description").value);
@@ -215,19 +216,22 @@ const updateProject = ()=>{
   urlencoded.append("status", document.getElementById("edit-modal-status").value);
 
   putData("https://sidie.herokuapp.com/project",urlencoded)
-    .then(data=>{
-      console.log(data);
-    })
-    .catch(err=>{
-      console.log(err);
-    });
+  .then(data=>{
+    console.log(data);
+  })
+  .catch(err=>{
+    console.log(err);
+  });
 
-    document.getElementById('cardSection').innerHTML = "";
-    loadingData();
-    document.getElementById('editModal').close();
+  document.getElementById('cardSection').innerHTML = "";
+  document.getElementById('editModal').close();
+  loadingData();
+  
   
 }
+//End
 
+//Function to create new project
 const createProject = ()=>{
   
   let urlencoded = new URLSearchParams();
@@ -237,18 +241,18 @@ const createProject = ()=>{
   urlencoded.append("status", document.getElementById("create-modal-status").value);
 
   createPostData("https://sidie.herokuapp.com/project",urlencoded)
-    .then(data=>{
-      console.log(data);
-    })
-    .catch(err=>{
-      console.log(err);
-    });
+  .then(data=>{
+    console.log(data);
+  })
+  .catch(err=>{
+    console.log(err);
+  });
 
-    document.getElementById('cardSection').innerHTML = "";
-    loadingData();
-    document.getElementById('createModal').close();
-  
+  document.getElementById('cardSection').innerHTML = "";
+  loadingData();
+  document.getElementById('createModal').close();
 }
+//End
 
 
 //HTTP REQUEST ASYNC FUNCTIONS
