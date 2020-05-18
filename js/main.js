@@ -1,21 +1,21 @@
-
 //Sign In Function
 const signin=()=>{
-    const username = document.getElementById('username');
-    const password = document.getElementById('password');
+    const usernameValue = document.getElementById('username').value;
+    const passwordValue = document.getElementById('password').value;
     const urlencoded = new URLSearchParams();
-    urlencoded.append("username", username.value);
-    urlencoded.append("password", password.value);
+    urlencoded.append("username", usernameValue);
+    urlencoded.append("password", passwordValue);
     callFetch("signin",urlencoded);
 }
 
 //Sign Up Function
 const signup=()=>{
-  const username = document.getElementById('username');
-  const password = document.getElementById('password');
-  const confirmPassword = document.getElementById('confirmpassword');
-  const usernameValue = username.value;
-  if(password.value === confirmPassword.value && usernameValue && usernameValue.trim() !== "" )
+  const usernameValue = document.getElementById('username').value;
+  const passwordValue = document.getElementById('password').value;
+  const signButton = document.getElementById("sign-button");
+  const confirmPasswordValue = document.getElementById('confirmpassword').value;
+  
+  if(passwordValue === confirmPasswordValue && usernameValue && usernameValue.trim() !== "" )
   {
     const urlencoded = new URLSearchParams();
     urlencoded.append("username", username.value);
@@ -24,85 +24,75 @@ const signup=()=>{
   }
   else
   {
-    const errorMsg = password.value !== confirmPassword.value ? "Passwords don't match": "Username is invalid";
-   
-    document.getElementById("sign-button").disabled = true;
-    document.getElementById("sign-button").classList.add("cursor-not-allowed");
-    document.getElementById("sign-button").classList.remove("cursor-pointer");
-    document.getElementById("sign-button").classList.add("opacity-50");
-    document.getElementById("sign-button").classList.remove("opacity-100");
+    disableButton(signButton);
+    const errorMsg = passwordValue !== confirmPasswordValue ? "Passwords don't match": "Username is invalid";
     showError(errorMsg,"error-wrapper","error-text");
   }
 }
 
-//Username focusout
+///Function call on Username input tag focusout
 const usernameOnFocusout = ()=>{ 
   const usernameValue = document.getElementById('username').value;
-  
+  const signButton = document.getElementById("sign-button");
   if(usernameValue && usernameValue.trim() !== "")
-  {
     hideError("error-wrapper");
-  }
   else
   {
-    document.getElementById("sign-button").disabled = true;
-    document.getElementById("sign-button").classList.add("cursor-not-allowed");
-    document.getElementById("sign-button").classList.remove("cursor-pointer");
-    document.getElementById("sign-button").classList.add("opacity-50");
-    document.getElementById("sign-button").classList.remove("opacity-100");
+    disableButton(signButton);
     showError("Username is invalid","error-wrapper","error-text");
   }
 }
 
-//Password focusout
+//Function call on Password input tag focusout
 const passwordOnFocusout = (process)=>{ 
   const passwordValue = document.getElementById('password').value;
-  
+  const signButton = document.getElementById("sign-button");
   if(passwordValue.length >= 4)
   {
     hideError("error-wrapper");
     if(process === "signin")
-    {
-      document.getElementById("sign-button").disabled = false;
-      document.getElementById("sign-button").classList.remove("cursor-not-allowed");
-      document.getElementById("sign-button").classList.add("cursor-pointer");
-      document.getElementById("sign-button").classList.remove("opacity-50");
-      document.getElementById("sign-button").classList.add("opacity-100");
-    }
+      enableButton(signButton);
   }
   else
   {
-    document.getElementById("sign-button").disabled = true;
-    document.getElementById("sign-button").classList.add("cursor-not-allowed");
-    document.getElementById("sign-button").classList.remove("cursor-pointer");
-    document.getElementById("sign-button").classList.add("opacity-50");
-    document.getElementById("sign-button").classList.remove("opacity-100");
+    disableButton(signButton);
     showError("Password has to be more than 3 characters","error-wrapper","error-text");
   }
 }
 
+//Function call on Confirm Password input tag focusout
 const confirmPasswordOnFocusout = ()=>{
   const password = document.getElementById('password');
+  const signButton = document.getElementById("sign-button");
   const confirmPassword = document.getElementById('confirmpassword');
   if(password.value === confirmPassword.value)
-  {
-    document.getElementById("sign-button").disabled = false;
-    document.getElementById("sign-button").classList.remove("cursor-not-allowed");
-    document.getElementById("sign-button").classList.add("cursor-pointer");
-    document.getElementById("sign-button").classList.remove("opacity-50");
-    document.getElementById("sign-button").classList.add("opacity-100");
-  }
+    enableButton(signButton);
   else
   {
-    document.getElementById("sign-button").disabled = true;
-    document.getElementById("sign-button").classList.add("cursor-not-allowed");
-    document.getElementById("sign-button").classList.remove("cursor-pointer");
-    document.getElementById("sign-button").classList.add("opacity-50");
-    document.getElementById("sign-button").classList.remove("opacity-100");
+    disableButton(signButton);
     showError("Passwords do not match","error-wrapper","error-text");
   }
 }
 
+//Function to enable CTA button
+const enableButton = (DOMelement)=>{
+  DOMelement.disabled = false;
+  DOMelement.classList.remove("cursor-not-allowed");
+  DOMelement.classList.add("cursor-pointer");
+  DOMelement.classList.remove("opacity-50");
+  DOMelement.classList.add("opacity-100");
+}
+
+//Function to disable CTA button
+const disableButton = (DOMelement)=>{
+  DOMelement.disabled = true;
+  DOMelement.classList.add("cursor-not-allowed");
+  DOMelement.classList.remove("cursor-pointer");
+  DOMelement.classList.add("opacity-50");
+  DOMelement.classList.remove("opacity-100");
+}
+
+//Function to show error
 const showError = (errorText,wrapperID,textID)=>{
   const wrapperElement = document.getElementById(wrapperID);
   const textElement = document.getElementById(textID);
@@ -110,10 +100,10 @@ const showError = (errorText,wrapperID,textID)=>{
   textElement.innerHTML = errorText;
 }
 
+//Function to hide error
 const hideError = (wrapperID)=>{
   const wrapperElement = document.getElementById(wrapperID);
   wrapperElement.classList.add("hidden");
-  
 }
 
 //Fetch helper function 
