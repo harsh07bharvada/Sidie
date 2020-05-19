@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/dialog-polyfill.css">
     <link rel="stylesheet" href="./css/main.css">
-    <script src="./js/main.js"></script>
     <title>Sidie</title>
 </head>
 <body>
@@ -66,5 +66,25 @@
             </div>
         </div>
     </section>
+
+    <dialog id="sign-status-modal" class="h-auto w-11/12 md:w-1/2 py-10  bg-white rounded-md ">
+        <div class="flex flex-col w-full h-full justify-center items-center py-4">
+            <div id="loading-icon" class="flex h-10 w-10">
+                <div class="sk-chase">
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                    <div class="sk-chase-dot"></div>
+                  </div>
+            </div>
+            <div id="loading-text" class="flex w-full h-auto py-5 justify-center items-center text-gray-900 text-xl font-bold">
+                Hang on tight...
+            </div>
+        </div>
+    </dialog>
+    <script src="./js/dialog-polyfill.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 </html>
