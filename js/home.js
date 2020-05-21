@@ -45,6 +45,8 @@ const populatePage = (data)=>{
   let mainSection = document.getElementById('cardSection');
   mainSection.innerHTML = "";
   usernameField.innerHTML = username;
+  if(result.length == 0)
+    mainSection.innerHTML = `<span> Please add new projects</span>`;
   result.forEach(project => addCard(project));
 }
 //End

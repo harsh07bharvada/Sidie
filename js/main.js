@@ -128,23 +128,23 @@ const callFetch=(process,urlencoded)=>{
         },2000);
         
       }
-      else if(data.error === "Authentication Error")
+      else if(data.error === "Authentication Error" || data.status === 404)
       {
-        document.getElementById("loading-icon").classList.add("p-2","rounded-full","border-2","border-red-500");
+        document.getElementById("loading-icon").classList.add("p-2","rounded-full");
         document.getElementById("loading-icon").innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f56565" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`
         document.getElementById("loading-text").innerHTML = `Issue with the details please try again!`;
         setTimeout(()=>{
-          document.getElementById("signup-status-modal").showModal();
+          document.getElementById("sign-status-modal").close();
         },2000);
         showError("Incorrect Username / Password","error-wrapper","error-text");
       }
       else if(data.status === 409 || data.status === 500)
       {
-        document.getElementById("loading-icon").classList.add("p-2","rounded-full","border-2","border-red-500");
+        document.getElementById("loading-icon").classList.add("p-2","rounded-full");
         document.getElementById("loading-icon").innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f56565" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-alert-circle"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>`
         document.getElementById("loading-text").innerHTML = `Issue with the details please try again!`;
         setTimeout(()=>{
-          document.getElementById("signup-status-modal").showModal();
+          document.getElementById("sign-status-modal").close();
         },2000);
         showError("Username already exists","error-wrapper","error-text");
       }
